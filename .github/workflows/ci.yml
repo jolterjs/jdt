@@ -86,8 +86,8 @@ jobs:
             style
             ci
           assignees: ${{ github.repository_owner }}
-          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
-          committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          author: "jolterbot <292917661+jolterbot@users.noreply.github.com>"
+          committer: "jolterbot <292917661+jolterbot@users.noreply.github.com>"
 
       - name: Enable auto-merge for Prettier PR
         if: steps.cpr.outputs.pull-request-number != ''
