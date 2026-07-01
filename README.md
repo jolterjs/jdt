@@ -70,11 +70,13 @@ export function validateInstalled(tool: string, version: string, root: string): 
 }
 ```
 
+Tool releases may return stable versions such as `1.0.0` or prerelease
+versions such as `1.0.0-rc.1`. Plugin release manifests produced by
+`jdt manifest` still use stable semver versions.
+
 ## Examples
 
-- `examples/hello-tool`: deterministic fixture used by tests.
-- `examples/github-release-tool`: demonstrates GitHub release-style artifact
-  URLs and network permission metadata without live network calls.
+- [`jolter-plugin-jolter`](https://github.com/jolterjs/jolter-plugin-jolter) The official Jolter Plugin for the Jolter runtime & tools manager.
 
 ## Development
 

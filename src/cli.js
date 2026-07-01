@@ -438,8 +438,8 @@ function validateTools(value) {
 
 function validateToolRelease(value) {
   if (!value || typeof value !== "object") throw new Error("resolveTool must return an object");
-  if (!/^\d+\.\d+\.\d+$/.test(value.version ?? ""))
-    throw new Error("tool release version must be stable semver");
+  if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(value.version ?? ""))
+    throw new Error("tool release version must be semver");
   if (!String(value.url ?? "").startsWith("https://"))
     throw new Error("tool release url must be HTTPS");
   if (!/^[a-f0-9]{64}$/.test(value.sha256 ?? ""))

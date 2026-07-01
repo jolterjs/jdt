@@ -92,7 +92,31 @@ export function resolveTool() { return { version: "not-semver", url: "http://exa
   const result = runJdt(dir, ["run", "resolve-tool", "bad", "1"]);
 
   assert.notEqual(result.status, 0);
-  assert.match(result.stderr, /version must be stable semver/);
+  assert.match(result.stderr, /version must be semver/);
+});
+
+test("jdt run accepts prerelease tool versions", () => {
+  const dir = copyExample("hello-tool");
+  fs.writeFileSync(
+    path.join(dir, "src/plugin.ts"),
+    `export function listTools() { return [{ name: "hello-tool", commands: ["hello-tool"] }]; }
+export function resolveTool() {
+  return {
+    version: "1.2.3-rc.1",
+    url: "https://downloads.example.test/hello-tool.tar.gz",
+    sha256: "1".repeat(64),
+    archiveFormat: "tar.gz",
+    stripComponents: 1,
+    commands: ["hello-tool"]
+  };
+}
+`,
+  );
+
+  const result = runJdt(dir, ["run", "resolve-tool", "hello-tool", "1.2.3-rc.1"]);
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(JSON.parse(result.stdout).version, "1.2.3-rc.1");
 });
 
 test(
