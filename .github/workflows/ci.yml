@@ -37,7 +37,7 @@ jobs:
           node-version: 22.x
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun install
 
       - name: Check formatting, then apply Prettier fixes if needed
         id: prettier
@@ -125,7 +125,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun install
 
       - name: Check formatting
         run: bun run format:check
