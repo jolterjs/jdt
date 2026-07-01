@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.jdt/
+examples/*/node_modules/
+examples/*/dist/
+examples/*/.jdt/
+examples/*/bun.lock

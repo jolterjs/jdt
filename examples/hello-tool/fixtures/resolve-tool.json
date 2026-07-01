@@ -1,0 +1,8 @@
+{
+  "version": "1.2.3",
+  "url": "https://downloads.example.test/hello-tool/v1.2.3/hello-tool-linux-x64.tar.gz",
+  "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "archiveFormat": "tar.gz",
+  "stripComponents": 1,
+  "commands": ["hello-tool"]
+}

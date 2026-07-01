@@ -1,0 +1,33 @@
+{
+  "$schema": "https://jolter.dev/schemas/plugin/v1/schema.json",
+  "schemaVersion": 1,
+  "name": "@jolter-example/hello-tool",
+  "displayName": "Hello Tool",
+  "description": "Deterministic example Jolter plugin for local JDT tests.",
+  "keywords": ["jolter", "example"],
+  "homepage": "https://github.com/jolterjs/jolter",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jolterjs/jolter-plugin-hello-tool.git"
+  },
+  "license": "MIT",
+  "readme": "./README.md",
+  "categories": ["example"],
+  "supports": {
+    "jolter": ">=0.3.0"
+  },
+  "provides": {
+    "tools": {
+      "hello-tool": {
+        "displayName": "Hello Tool",
+        "description": "A deterministic fixture tool.",
+        "commands": ["hello-tool"]
+      }
+    }
+  },
+  "permissions": {
+    "network": { "allowedHosts": ["downloads.example.test"] },
+    "filesystem": { "read": ["project"], "write": ["jolter-cache", "jolter-tools"] },
+    "commands": { "execute": false }
+  }
+}

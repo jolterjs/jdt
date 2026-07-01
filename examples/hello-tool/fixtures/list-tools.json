@@ -1,0 +1,8 @@
+[
+  {
+    "name": "hello-tool",
+    "displayName": "Hello Tool",
+    "description": "A deterministic fixture tool.",
+    "commands": ["hello-tool"]
+  }
+]

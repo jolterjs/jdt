@@ -1,0 +1,45 @@
+{
+  "name": "@jolter/jdt",
+  "version": "0.1.0",
+  "description": "Development toolkit for Jolter plugins.",
+  "type": "module",
+  "bin": {
+    "jdt": "./src/cli.js"
+  },
+  "exports": {
+    "./types/plugin-api": "./types/plugin-api.d.ts"
+  },
+  "homepage": "https://jolter.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jolterjs/jdt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jolterjs/jdt/issues"
+  },
+  "author": {
+    "name": "JolterJS",
+    "url": "https://jolter.dev"
+  },
+  "files": [
+    "src",
+    "types",
+    "wit",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "bun test tests",
+    "test:examples": "bun test tests"
+  },
+  "keywords": [
+    "jolter",
+    "plugin",
+    "wasm"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@bytecodealliance/componentize-js": "^0.21.0",
+    "@bytecodealliance/jco": "^1.15.4",
+    "esbuild": "^0.25.0"
+  }
+}

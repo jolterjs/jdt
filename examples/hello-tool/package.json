@@ -1,0 +1,18 @@
+{
+  "name": "@jolter-example/hello-tool",
+  "version": "1.2.3",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "jdt": "bun ../../src/cli.js",
+    "build": "bun ../../src/cli.js build",
+    "pack": "bun ../../src/cli.js pack --version 1.2.3",
+    "run:list": "bun ../../src/cli.js run list-tools",
+    "run:resolve": "bun ../../src/cli.js run resolve-tool hello-tool 1.x --os linux --arch x64"
+  },
+  "devDependencies": {
+    "@bytecodealliance/componentize-js": "^0.21.0",
+    "@bytecodealliance/jco": "^1.15.4",
+    "esbuild": "^0.25.0"
+  }
+}
