@@ -25,11 +25,14 @@
     "src",
     "types",
     "wit",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "test": "bun test tests",
-    "test:examples": "bun test tests"
+    "test:examples": "bun test tests",
+    "format": "prettier -w .",
+    "format:check": "prettier --check ."
   },
   "keywords": [
     "jolter",
@@ -41,5 +44,8 @@
     "@bytecodealliance/componentize-js": "^0.21.0",
     "@bytecodealliance/jco": "^1.15.4",
     "esbuild": "^0.25.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.4"
   }
 }

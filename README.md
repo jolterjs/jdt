@@ -1,12 +1,12 @@
 # Jolter Development Toolkit
 
-`jolter-development-toolkit` provides the `jdt` CLI for building, validating,
+`@jolter/jdt` provides the `jdt` CLI for building, validating,
 running, and packaging Jolter plugins.
 
 ## Quick Start
 
 ```bash
-npm install -D jolter-development-toolkit
+npm install -D @jolter/jdt
 npx jdt init
 npx jdt build
 npx jdt run list-tools
@@ -37,7 +37,7 @@ jdt run validate-installed <tool> <version> <root>
 `jdt build` uses Bytecode Alliance `jco componentize` with
 `@bytecodealliance/componentize-js`. Componentization currently requires
 Node.js even when the rest of the toolkit is run with Bun. It fails if
-compilation fails; it no longer writes placeholder WASM. Use `--wasm` only when
+compilation fails. Use `--wasm` only when
 intentionally packaging a prebuilt artifact.
 
 `jdt run` executes the local TypeScript/JavaScript plugin API and validates the
@@ -54,11 +54,7 @@ export function listTools(): Tool[] {
   return [{ name: "example", commands: ["example"] }];
 }
 
-export function resolveTool(
-  tool: string,
-  selector: string,
-  platform: Platform,
-): ToolRelease {
+export function resolveTool(tool: string, selector: string, platform: Platform): ToolRelease {
   return {
     version: "1.0.0",
     url: `https://example.com/${tool}-${platform.os}-${platform.arch}.tar.gz`,
@@ -69,11 +65,7 @@ export function resolveTool(
   };
 }
 
-export function validateInstalled(
-  tool: string,
-  version: string,
-  root: string,
-): boolean {
+export function validateInstalled(tool: string, version: string, root: string): boolean {
   return true;
 }
 ```
@@ -83,3 +75,25 @@ export function validateInstalled(
 - `examples/hello-tool`: deterministic fixture used by tests.
 - `examples/github-release-tool`: demonstrates GitHub release-style artifact
   URLs and network permission metadata without live network calls.
+
+## Development
+
+```bash
+bun install
+bun test
+bun run format:check
+```
+
+See `CONTRIBUTING.md` for contribution guidelines and local development notes.
+
+## Releases
+
+Publishing is handled by GitHub Actions and npm Trusted Publishing. To publish:
+
+1. Update `package.json` and `CHANGELOG.md`.
+2. Open and merge a pull request.
+3. Create a GitHub release whose tag matches the package version, for example
+   `v1.0.0`.
+
+When the release is published, `.github/workflows/npm-publish.yml` verifies the
+package and publishes it to npm with provenance using OIDC.

@@ -13,11 +13,7 @@ export function listTools(): Tool[] {
   ];
 }
 
-export function resolveTool(
-  tool: string,
-  selector: string,
-  platform: Platform,
-): ToolRelease {
+export function resolveTool(tool: string, selector: string, platform: Platform): ToolRelease {
   if (tool !== "hello-tool") {
     throw new Error("unsupported tool " + tool);
   }
@@ -33,11 +29,7 @@ export function resolveTool(
   };
 }
 
-export function validateInstalled(
-  tool: string,
-  version: string,
-  root: string,
-): boolean {
+export function validateInstalled(tool: string, version: string, root: string): boolean {
   return tool === "hello-tool" && versions.includes(version) && root.length > 0;
 }
 
@@ -46,7 +38,9 @@ function selectVersion(selector: string): string {
     return versions[0];
   }
   const prefix = selector.replace(/\.x$/i, "");
-  const selected = versions.find((version) => version.startsWith(prefix + ".") || version === prefix);
+  const selected = versions.find(
+    (version) => version.startsWith(prefix + ".") || version === prefix,
+  );
   if (!selected) throw new Error("no hello-tool version matches " + selector);
   return selected;
 }

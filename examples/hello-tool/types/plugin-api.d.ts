@@ -20,13 +20,5 @@ export interface ToolRelease {
 }
 
 export type ListTools = () => Tool[];
-export type ResolveTool = (
-  tool: string,
-  selector: string,
-  platform: Platform,
-) => ToolRelease;
-export type ValidateInstalled = (
-  tool: string,
-  version: string,
-  root: string,
-) => boolean;
+export type ResolveTool = (tool: string, selector: string, platform: Platform) => ToolRelease;
+export type ValidateInstalled = (tool: string, version: string, root: string) => boolean;

@@ -136,7 +136,9 @@ async function build(options = {}) {
   if (result.status !== 0 || !fs.existsSync("dist/plugin.wasm")) {
     const stderr = result.stderr ? String(result.stderr).trim() : "";
     throw new Error(
-      "jco componentize failed" + (stderr ? ": " + stderr : "") + ". Install dependencies with `bun install` or `npm install`.",
+      "jco componentize failed" +
+        (stderr ? ": " + stderr : "") +
+        ". Install dependencies with `bun install` or `npm install`.",
     );
   }
   assertWasmMagic("dist/plugin.wasm");
@@ -203,7 +205,8 @@ async function validateProject() {
   if (fs.existsSync(releasePath)) {
     const release = readJson(releasePath);
     validateRelease(release);
-    if (release.name !== root.name) throw new Error("release manifest name does not match root manifest");
+    if (release.name !== root.name)
+      throw new Error("release manifest name does not match root manifest");
     const wasmPath = path.join("dist", release.artifacts.wasm.file);
     if (!fs.existsSync(wasmPath)) throw new Error("release WASM artifact is missing: " + wasmPath);
     const wasm = fs.readFileSync(wasmPath);
@@ -219,7 +222,8 @@ async function validateProject() {
 
 async function runPlugin() {
   const action = args[0];
-  if (!action) throw new Error("expected run action: list-tools, resolve-tool, or validate-installed");
+  if (!action)
+    throw new Error("expected run action: list-tools, resolve-tool, or validate-installed");
   await ensureRunnableBundle();
   const plugin = await loadPluginModule();
   let output;
@@ -255,7 +259,8 @@ async function loadPluginModule() {
   const modulePath = path.resolve(".jdt/build/plugin.js");
   const imported = await import(pathToFileURL(modulePath).href + "?t=" + Date.now());
   if (typeof imported.listTools !== "function") throw new Error("plugin must export listTools()");
-  if (typeof imported.resolveTool !== "function") throw new Error("plugin must export resolveTool()");
+  if (typeof imported.resolveTool !== "function")
+    throw new Error("plugin must export resolveTool()");
   return imported;
 }
 
@@ -333,7 +338,8 @@ function jcoCommand() {
       prefixArgs: [script],
     };
   }
-  const binary = process.platform === "win32" ? "node_modules/.bin/jco.cmd" : "node_modules/.bin/jco";
+  const binary =
+    process.platform === "win32" ? "node_modules/.bin/jco.cmd" : "node_modules/.bin/jco";
   if (fs.existsSync(binary)) return { command: path.resolve(binary), prefixArgs: [] };
   return { command: "jco", prefixArgs: [] };
 }
@@ -423,10 +429,14 @@ function validateTools(value) {
 
 function validateToolRelease(value) {
   if (!value || typeof value !== "object") throw new Error("resolveTool must return an object");
-  if (!/^\d+\.\d+\.\d+$/.test(value.version ?? "")) throw new Error("tool release version must be stable semver");
-  if (!String(value.url ?? "").startsWith("https://")) throw new Error("tool release url must be HTTPS");
-  if (!/^[a-f0-9]{64}$/.test(value.sha256 ?? "")) throw new Error("tool release sha256 must be 64 lowercase hex characters");
-  if (!["tar.gz", "zip"].includes(value.archiveFormat)) throw new Error("archiveFormat must be tar.gz or zip");
+  if (!/^\d+\.\d+\.\d+$/.test(value.version ?? ""))
+    throw new Error("tool release version must be stable semver");
+  if (!String(value.url ?? "").startsWith("https://"))
+    throw new Error("tool release url must be HTTPS");
+  if (!/^[a-f0-9]{64}$/.test(value.sha256 ?? ""))
+    throw new Error("tool release sha256 must be 64 lowercase hex characters");
+  if (!["tar.gz", "zip"].includes(value.archiveFormat))
+    throw new Error("archiveFormat must be tar.gz or zip");
   if (!Number.isInteger(value.stripComponents) || value.stripComponents < 0) {
     throw new Error("stripComponents must be a non-negative integer");
   }
@@ -493,7 +503,9 @@ function valueAfter(flag) {
 }
 
 function githubRepo(url) {
-  const match = String(url ?? "").match(/^https:\/\/github\.com\/([^/\s]+)\/([^/\s.]+)(?:\.git)?\/?$/i);
+  const match = String(url ?? "").match(
+    /^https:\/\/github\.com\/([^/\s]+)\/([^/\s.]+)(?:\.git)?\/?$/i,
+  );
   if (!match) throw new Error("repository.url must be a GitHub HTTPS URL");
   return { owner: match[1], repo: match[2].replace(/\.git$/i, "") };
 }

@@ -13,10 +13,7 @@ test("jdt run executes the hello-tool example API", () => {
 
   const list = runJdt(dir, ["run", "list-tools"]);
   assert.equal(list.status, 0, list.stderr);
-  assert.deepEqual(
-    JSON.parse(list.stdout),
-    readJson(path.join(dir, "fixtures/list-tools.json")),
-  );
+  assert.deepEqual(JSON.parse(list.stdout), readJson(path.join(dir, "fixtures/list-tools.json")));
 
   const resolved = runJdt(dir, [
     "run",
@@ -34,13 +31,7 @@ test("jdt run executes the hello-tool example API", () => {
     readJson(path.join(dir, "fixtures/resolve-tool.json")),
   );
 
-  const valid = runJdt(dir, [
-    "run",
-    "validate-installed",
-    "hello-tool",
-    "1.2.3",
-    dir,
-  ]);
+  const valid = runJdt(dir, ["run", "validate-installed", "hello-tool", "1.2.3", dir]);
   assert.equal(valid.status, 0, valid.stderr);
   assert.equal(JSON.parse(valid.stdout), true);
 });
@@ -91,17 +82,24 @@ export function resolveTool() { return { version: "not-semver", url: "http://exa
   assert.match(result.stderr, /version must be stable semver/);
 });
 
-test("jdt build compiles the hello-tool example when the component toolchain is available", {
-  skip: !componentToolchainAvailable(),
-  timeout: 60_000,
-}, () => {
-  const dir = copyExample("hello-tool");
+test(
+  "jdt build compiles the hello-tool example when the component toolchain is available",
+  {
+    skip: !componentToolchainAvailable(),
+    timeout: 60_000,
+  },
+  () => {
+    const dir = copyExample("hello-tool");
 
-  const result = runJdt(dir, ["build"]);
+    const result = runJdt(dir, ["build"]);
 
-  assert.equal(result.status, 0, result.stderr);
-  assert.equal(fs.readFileSync(path.join(dir, "dist/plugin.wasm")).subarray(0, 4).toString("binary"), "\0asm");
-});
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(
+      fs.readFileSync(path.join(dir, "dist/plugin.wasm")).subarray(0, 4).toString("binary"),
+      "\0asm",
+    );
+  },
+);
 
 function copyExample(name) {
   const source = path.join(root, "examples", name);
@@ -138,7 +136,10 @@ function componentToolchainAvailable() {
     path.join(root, "node_modules/@bytecodealliance/jco/jco.js"),
   ];
   const script = candidates.find((candidate) => fs.existsSync(candidate));
-  if (!script || !fs.existsSync(path.join(root, "node_modules/@bytecodealliance/componentize-js"))) {
+  if (
+    !script ||
+    !fs.existsSync(path.join(root, "node_modules/@bytecodealliance/componentize-js"))
+  ) {
     return false;
   }
   const result = spawnSync(runtime, [script, "--version"], {
