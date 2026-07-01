@@ -8,6 +8,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const command = process.argv[2] ?? "help";
 const args = process.argv.slice(3);
+const PLUGIN_SCHEMA_URL = "https://schemas.jolter.dev/plugin/v1/schema.json";
+const PLUGIN_RELEASE_SCHEMA_URL = "https://schemas.jolter.dev/plugin-release/v1/schema.json";
 
 try {
   if (command === "init") await init();
@@ -45,7 +47,7 @@ async function init() {
     "plugin.json",
     JSON.stringify(
       {
-        $schema: "https://jolter.dev/schemas/plugin/v1/schema.json",
+        $schema: PLUGIN_SCHEMA_URL,
         schemaVersion: 1,
         name: "@example/example",
         displayName: "Example",
@@ -154,7 +156,7 @@ async function manifest(options = {}) {
   const tag = valueAfter("--tag") ?? "v" + version;
   const repo = githubRepo(root.repository?.url);
   const release = {
-    $schema: "https://jolter.dev/schemas/plugin-release/v1/schema.json",
+    $schema: PLUGIN_RELEASE_SCHEMA_URL,
     schemaVersion: 1,
     name: root.name,
     version,
@@ -378,6 +380,9 @@ function validateRootManifest(root) {
     throw new Error("root manifest name must be a scoped Jolter plugin name");
   }
   if (root.schemaVersion !== 1) throw new Error("root manifest schemaVersion must be 1");
+  if (root.$schema && root.$schema !== PLUGIN_SCHEMA_URL) {
+    throw new Error("root manifest $schema must be " + PLUGIN_SCHEMA_URL);
+  }
   if (!root.description) throw new Error("root manifest description is required");
   githubRepo(root.repository?.url);
   validateProvides(root.provides ?? {});
@@ -389,6 +394,10 @@ function validateRootManifest(root) {
 function validateRelease(release) {
   if (!/^@[a-z0-9][a-z0-9._-]*\/[a-z0-9][a-z0-9._-]*$/.test(release.name ?? "")) {
     throw new Error("release name must be a scoped Jolter plugin name");
+  }
+  if (release.schemaVersion !== 1) throw new Error("release manifest schemaVersion must be 1");
+  if (release.$schema && release.$schema !== PLUGIN_RELEASE_SCHEMA_URL) {
+    throw new Error("release manifest $schema must be " + PLUGIN_RELEASE_SCHEMA_URL);
   }
   if (!/^\d+\.\d+\.\d+$/.test(release.version ?? "")) {
     throw new Error("release version must be stable semver");

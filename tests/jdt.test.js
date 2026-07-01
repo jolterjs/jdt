@@ -48,6 +48,7 @@ test("jdt manifest and validate generate registry-compatible metadata", () => {
   assert.equal(validate.status, 0, validate.stderr);
 
   const release = readJson(path.join(dir, "dist/plugin.release.json"));
+  assert.equal(release.$schema, "https://schemas.jolter.dev/plugin-release/v1/schema.json");
   assert.equal(release.name, "@jolter-example/hello-tool");
   assert.equal(release.version, "1.2.3");
   assert.equal(release.entrypoint.path, "plugin.wasm");
@@ -65,6 +66,18 @@ test("jdt validate rejects unsafe command execution permissions", () => {
 
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /does not allow shell execution/);
+});
+
+test("jdt validate rejects mismatched root schema URLs", () => {
+  const dir = copyExample("hello-tool");
+  const plugin = readJson(path.join(dir, "plugin.json"));
+  plugin.$schema = "https://schemas.jolter.dev/plugin-release/v1/schema.json";
+  fs.writeFileSync(path.join(dir, "plugin.json"), JSON.stringify(plugin, null, 2));
+
+  const result = runJdt(dir, ["validate"]);
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /root manifest \$schema/);
 });
 
 test("jdt run rejects invalid tool release output", () => {

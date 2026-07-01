@@ -1,5 +1,5 @@
 {
-  "$schema": "https://jolter.dev/schemas/plugin/v1/schema.json",
+  "$schema": "https://schemas.jolter.dev/plugin/v1/schema.json",
   "schemaVersion": 1,
   "name": "@jolter-example/hello-tool",
   "displayName": "Hello Tool",
