@@ -14,7 +14,7 @@ jobs:
   style:
     name: Style Gate (Prettier)
     if: ${{ github.event_name != 'pull_request' }}
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, ci]
     environment: ci
 
     permissions:
@@ -100,7 +100,7 @@ jobs:
 
   quality:
     name: Quality (Node ${{ matrix.node-version }})
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, quality]
     environment: ci
 
     permissions:
